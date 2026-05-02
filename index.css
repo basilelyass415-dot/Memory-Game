@@ -31,7 +31,7 @@ body {
 .cards {
   width: 100%;
   /* استخدام عرض الحاوية لتحديد الارتفاع ليكون مربعاً */
-  aspect-ratio: 1 / 1.2; 
+  aspect-ratio: 3 / 5;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -44,7 +44,7 @@ body {
   perspective: 1000px;
   /* تقسيم الشاشة لـ 3 أعمدة ليناسب عرض الهاتف */
   width: calc(100% / 3 - 8px);
-  height: calc(100% / 4 - 8px);
+  height: calc(100% / 6 - 8px);
 }
 
 .card .view {
@@ -102,6 +102,9 @@ body {
 .fa-facebook { color: #1877F2; }
 .fa-instagram { color: #E4405F; }
 .fa-discord { color: #5865F2; }
+.fa-whatsapp { color: #25D366; }
+.fa-snapchat { color: #FFFC00; text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);  }
+.fa-google-play { color: #41B1E1; }
 
 /* قسم التفاصيل detales */
 .detales {
@@ -148,4 +151,75 @@ body {
   40% { transform: translateX(8px); }
   60% { transform: translateX(-5px); }
   80% { transform: translateX(5px); }
+}
+/* ===============================
+   تنسيقات النافذة المنبثقة (Modal)
+   =============================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* خلفية داكنة شفافة */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  
+  /* الإخفاء الافتراضي مع حركة ناعمة */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  width: 90%;
+  max-width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  
+  /* حركة تكبير النافذة عند الظهور */
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal-box {
+  transform: scale(1);
+}
+
+.modal-box h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.modal-box p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.modal-box button {
+  background: #6563FF;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.modal-box button:active {
+  transform: scale(0.95);
 }
