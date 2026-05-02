@@ -3,11 +3,18 @@ timeTag = document.querySelector('.time b'),
 flipTag = document.querySelector('.flips b');
 let btn = document.querySelector('.detales button');
 
+
+let modalOverlay = document.getElementById('custom-modal');
+let modalMessage = document.getElementById('modal-message');
+let modalSubMessage = document.getElementById('modal-sub-message');
+let modalBtn = document.getElementById('modal-btn');
+
+
 let disable = false;
 let isplaying = false;
 let cardOne, cardTwo, timer;
 
-let maxTime = 20;
+let maxTime = 35;
 let timeLeft = maxTime;
 let flips = 0; 
 let matchedCards = 0;
@@ -17,9 +24,35 @@ cards.forEach((card) => {
   card.addEventListener("click", flipCard);
 });
 
+function showModal(isWin) {
+  if (isWin) {
+    modalMessage.innerText = "🎉 You Win! 🎉";
+    modalMessage.style.color = "#25D366"; // لون أخضر للفوز
+    modalSubMessage.innerText = `Flips: ${flips} | Time Left: ${timeLeft}s`;
+  } else {
+    modalMessage.innerText = "😂 You Lose! 😂";
+    modalMessage.style.color = "#E4405F"; // لون أحمر للخسارة
+    modalSubMessage.innerText = "Time is up! Try again.";
+  }
+  modalOverlay.classList.add('show');
+}
+
+function hideModal() {
+  modalOverlay.classList.remove('show');
+}
+
+// زر إعادة اللعب من داخل النافذة
+modalBtn.addEventListener('click', () => {
+  hideModal();
+  shuffleCard();
+});
+
+
+
 function initTimer() {
   if (timeLeft <= 0) {
-    return clearInterval(timer);
+    clearInterval(timer);
+    return showModal(false);
   }
   timeLeft--;
   timeTag.innerText = timeLeft;
@@ -49,8 +82,9 @@ function flipCard({target: clickedCard}) {
 function matchCards(icon1, icon2) {
   if (icon1 === icon2) {
     matchedCards++;
-    if (matchedCards == 6 && timeLeft > 0) {
-      return clearInterval(timer);
+    if (matchedCards == 9 && timeLeft > 0) {
+      clearInterval(timer);
+      return showModal(true);
     }
     cardOne.removeEventListener("click", flipCard);
     cardTwo.removeEventListener("click", flipCard);
@@ -81,7 +115,7 @@ function shuffleCard() {
   disable = isplaying = false;
   
   // المصفوفة الآن تحتوي على 12 أيقونة لتطابق عدد البطاقات
-  let arr = ['fa-tiktok','fa-youtube','fa-facebook','fa-instagram','fa-discord','fa-linkedin','fa-tiktok','fa-youtube','fa-facebook','fa-instagram','fa-discord','fa-linkedin'];
+  let arr = ['fa-tiktok','fa-youtube','fa-facebook','fa-instagram','fa-discord','fa-linkedin','fa-tiktok','fa-youtube','fa-facebook','fa-instagram','fa-discord','fa-linkedin','fa-whatsapp','fa-snapchat','fa-google-play','fa-whatsapp','fa-snapchat','fa-google-play'];
   arr.sort(() => Math.random() > 0.5 ? 1 : -1);
 
   cards.forEach((card, index) => {
@@ -102,3 +136,4 @@ btn.addEventListener("click", shuffleCard);
 
 // تشغيل خلط البطاقات عند بداية تحميل الصفحة
 shuffleCard();
+ 
